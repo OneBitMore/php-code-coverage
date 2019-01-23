@@ -138,6 +138,7 @@ final class CodeCoverage
      */
     public function __construct(Driver $driver = null, Filter $filter = null)
     {
+        //IVAN!!!
         if ($filter === null) {
             $filter = new Filter;
         }
