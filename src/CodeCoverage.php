@@ -378,6 +378,7 @@ final class CodeCoverage
                 continue;
             }
 
+
             // we should compare the lines if any of two contains data
             $compareLineNumbers = \array_unique(
                 \array_merge(
@@ -386,6 +387,21 @@ final class CodeCoverage
                 )
             );
 
+            $dif1 = \array_keys(\array_diff_key($this->data[$file], $that->data[$file]));
+            $dif2 = \array_keys(\array_diff_key($that->data[$file], $this->data[$file]));
+            if (!empty($dif1)) {
+                foreach ($dif1 as $key) {
+                    $this->data[$file][$key][] = 'Unknown';
+                }
+            }
+            if (!empty($dif2)) {
+                foreach ($dif2 as $key) {
+                    if (empty($this->data[$file][$key])) {
+                        $this->data[$file][$key][] = 'Unknown';
+                    }
+                }
+            }
+            
             foreach ($compareLineNumbers as $line) {
                 $thatPriority = $this->getLinePriority($that->data[$file], $line);
                 $thisPriority = $this->getLinePriority($this->data[$file], $line);
