@@ -392,19 +392,34 @@ final class CodeCoverage
 
             $dif1 = \array_keys(\array_diff_key($this->data[$file], $that->data[$file]));
             $dif2 = \array_keys(\array_diff_key($that->data[$file], $this->data[$file]));
+//            if (!empty($dif1)) {
+//                foreach ($dif1 as $key) {
+//                    $this->data[$file][$key][] = 'Unknown';
+//                }
+//            }
+//            if (!empty($dif2)) {
+//                foreach ($dif2 as $key) {
+//                    if (empty($that->data[$file][$key])) {
+//                        $this->data[$file][$key][] = 'Unknown';
+//                    }
+//                }
+//            }
+
             if (!empty($dif1)) {
                 foreach ($dif1 as $key) {
-                    $this->data[$file][$key][] = 'Unknown';
+                    if (empty($that->data[$file][$key]) && empty($that->data[$file][$key])) {
+                        unset($this->data[$file][$key]);
+                    }
                 }
             }
             if (!empty($dif2)) {
                 foreach ($dif2 as $key) {
                     if (empty($that->data[$file][$key])) {
-                        $this->data[$file][$key][] = 'Unknown';
+                        unset($that->data[$file][$key]);
                     }
                 }
             }
-            
+
             foreach ($compareLineNumbers as $line) {
                 $thatPriority = $this->getLinePriority($that->data[$file], $line);
                 $thisPriority = $this->getLinePriority($this->data[$file], $line);
