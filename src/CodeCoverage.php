@@ -387,6 +387,9 @@ final class CodeCoverage
                 )
             );
 
+            $aaa_lines_orig = $this->data[$file];
+            $aaa_lines_second = $that->data[$file];
+
             $dif1 = \array_keys(\array_diff_key($this->data[$file], $that->data[$file]));
             $dif2 = \array_keys(\array_diff_key($that->data[$file], $this->data[$file]));
             if (!empty($dif1)) {
@@ -396,7 +399,7 @@ final class CodeCoverage
             }
             if (!empty($dif2)) {
                 foreach ($dif2 as $key) {
-                    if (empty($this->data[$file][$key])) {
+                    if (empty($that->data[$file][$key])) {
                         $this->data[$file][$key][] = 'Unknown';
                     }
                 }
